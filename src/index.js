@@ -1,13 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import './index.css';
-import App from './App';
+import Login from './pages/Login/Index';
+import Signup from './pages/Signup/Index';
+import Dashboard from './pages/Dashboard/Index';
+import Post from './pages/Post/Index';
 import reportWebVitals from './reportWebVitals';
+import ProtectedRoute from './components/ProtectedRoute';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Navigate replace to='/dashboard'/>}></Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route 
+          path='/dashboard' 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route path='/post' element={<Post />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

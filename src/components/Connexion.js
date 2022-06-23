@@ -96,7 +96,7 @@ function Connexion() {
                 <StyledLabel for='mail'>E-mail</StyledLabel>
                 <StyledText type='text' id='mail' name='mail' value={email} required onChange={(e) => setEmail(e.target.value)}></StyledText>
                 <StyledLabel for='password'>Mot de passe</StyledLabel>
-                <StyledText type='text' id='password' name='password' value={password} required onChange={(e) => setPassword(e.target.value)}></StyledText>
+                <StyledText type='password' id='password' name='password' value={password} required onChange={(e) => setPassword(e.target.value)}></StyledText>
                 <StyledButton type='submit' value='Connexion' onClick={ConnexionClick}></StyledButton>
             </Formulaire>
         </main>

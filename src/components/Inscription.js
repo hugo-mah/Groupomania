@@ -107,7 +107,7 @@ function Inscription() {
                 <StyledLabel for='mail'>E-mail</StyledLabel>
                 <StyledText type='text' className='mail' name='mail' required onChange={(e) => setEmail(e.target.value)}></StyledText>
                 <StyledLabel for='password'>Mot de passe</StyledLabel>
-                <StyledText type='text' name='password' required onChange={(e) => setPassword(e.target.value)}></StyledText>
+                <StyledText type='password' name='password' required onChange={(e) => setPassword(e.target.value)}></StyledText>
                 <StyledButton type='submit' value='Connexion' onClick={signupClick}></StyledButton>
             </Formulaire>
         </main>

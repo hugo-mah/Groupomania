@@ -9,7 +9,7 @@ const Card = styled.form`
     margin: 30px auto;
     padding: 30px;
     border-radius: 30px;
-    width: 50%;
+    width: 40%;
     height: auto;
     box-shadow: 0px 5px 30px 0px ${colors.tertiary};
     background-color: ${colors.secondary};
@@ -25,11 +25,6 @@ const Label = styled.label`
 const InputImage = styled.input` 
     font-size: 15px;
 `
-
-const Image = styled.image`
-    display: flex;
-`
-
 
 const Description = styled.textarea`
     font-size: 15px;
@@ -61,19 +56,24 @@ const StyledButton = styled.input`
 `
 
 function NewPost(){
-    let [description, setDescription] = useState(null);
-    let [image, setImage] = useState(null);
+    let [description, setDescription] = useState('');
+    let [files, setFiles] = useState(null);
     const navigate = useNavigate();
     function SendPost(e){
         e.preventDefault();
-
+        let formData = new FormData();
+        let token = localStorage.getItem('token');
+        let userId = localStorage.getItem('userId');
+        formData.append('image', files[0]);
+        formData.append('description', description);
+        formData.append('userId', userId);
         fetch("http://localhost:3001/post", {
             method: "POST",
               headers: { 
-              'Accept': 'application/json', 
-              'Content-Type': 'application/json' 
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({image, description}),
+            body: formData,
             })
             .then(function(res){
                 if(res.ok){
@@ -91,11 +91,11 @@ function NewPost(){
     }
 
     return(
-        <Card method="post">
-            <Label>Image</Label>
-            <InputImage type='file' accept="image/png, image/jpeg, image/jpg" onChange={(e) => setImage(e.target)} required/>
-            <Label>Description</Label>
-            <Description onChange={(e) => setDescription(e.target.value)} required/>
+        <Card id='card'>
+            <Label for='image'>Image</Label>
+            <InputImage name='image' type='file' accept="image/png, image/jpeg, image/jpg" onChange={(e) => setFiles(e.target.files)} required/>
+            <Label for='description'>Description</Label>
+            <Description name='description' onChange={(e) => setDescription(e.target.value)} required/>
             <StyledButton type='submit' value='Poster' onClick={SendPost}/>
         </Card>
     )

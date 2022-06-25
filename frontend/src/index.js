@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard/Index';
 import Post from './pages/Post/Index';
 import reportWebVitals from './reportWebVitals';
 import ProtectedRoute from './components/ProtectedRoute';
+import Modify from './pages/Modify';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -31,7 +32,22 @@ root.render(
             </ProtectedRoute>
           } 
         />
-        <Route path='/post' element={<Post />} />
+        <Route 
+          path='/post' 
+          element={
+            <ProtectedRoute>
+              <Post />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/modify'
+          element={
+            <ProtectedRoute>
+              <Modify/>
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

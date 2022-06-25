@@ -15,7 +15,6 @@ function Dashboard() {
           })
           .then(function(res){
             if(res.ok){
-                console.log("Ok");
                 return res.json();
             }
           })

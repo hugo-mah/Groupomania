@@ -1,13 +1,13 @@
 import BannerConnected from "../../components/BannerConnected"
-import NewPost from "../../components/NewPost";
+import ModifyPost from "../../components/ModifyPost"
 
-function Post(){
+function Modify(){
     return(
         <div>
             <BannerConnected />
-            <NewPost />
+            <ModifyPost />
         </div>
     )
 }
 
-export default Post
+export default Modify

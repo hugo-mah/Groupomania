@@ -198,7 +198,7 @@ function Post({data}) {
                 <NumberLike>{data.likes}</NumberLike>
             </Like>
             {
-                data.userId === userId &&
+                (data.userId === userId || userId === "62b82230bb173280c8090464") &&
                 <div>
                     <Delete onClick={DeletePost}>Supprimer</Delete>
                     <Modify to={(`/modify?id=${data._id}`)} >Modifier</Modify>

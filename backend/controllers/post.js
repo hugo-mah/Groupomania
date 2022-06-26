@@ -63,7 +63,7 @@ exports.likePost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
     Post.findOne({ _id: req.body.data._id })
     .then(post => {
-      if(post && post.userId == req.auth.userId){
+      if((post.userId == req.auth.userId) || (req.auth.userId === process.env.REACT_APP_ADMIN_USERID)){
         const filename = post.imageUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {
           Post.deleteOne({ _id: req.body.data._id })
@@ -82,25 +82,29 @@ exports.deletePost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
 Post.findOne({ _id: req.params.id })
 .then((post) => {
-    if(req.auth.userId == post.userId){
+    if(req.auth.userId === post.userId || req.auth.userId === process.env.REACT_APP_ADMIN_USERID){
         if (req.file) {
             Post.findOne({ _id: req.params.id })
             .then(post => {
             const filename = post.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
                 const postObject = {
+                userId: post.userId,
                 description: req.body.description,
                 imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
-                Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
+                Post.updateOne({ _id: req.params.id }, { ...postObject})
                 .then(() => res.status(201).json({ message: 'Post modifié!' }))
                 .catch(error => res.status(400).json({ error }));
             })
             })
             .catch(error => res.status(500).json({ error }));
         } else {
-            const postObject = { ...req.body };
-            Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
+            const postObject = { 
+              userId: post.userId,
+              description: req.body.description,
+            };
+            Post.updateOne({ _id: req.params.id }, { ...postObject})
             .then(() => res.status(201).json({ message: 'Sauce modifiée!' }))
             .catch(error => res.status(400).json({ error }));
         }
@@ -109,5 +113,5 @@ Post.findOne({ _id: req.params.id })
     res.status(401).json({message: 'Utilisateur non authentifié'})
     }
 })
-.catch()
+.catch(error => res.status(500).json({ error }))
 };

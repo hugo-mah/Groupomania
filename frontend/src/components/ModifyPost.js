@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import colors from "../utils/styles/colors";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Card = styled.form`
@@ -61,33 +61,10 @@ const StyledButton = styled.input`
 function ModifyPost(){
     let [description, setDescription] = useState('');
     let [files, setFiles] = useState(null);
-    let [data, setData] = useState(null);
-    let token = localStorage.getItem('token');
     const navigate = useNavigate();
     let str = window.location.href;
     let url = new URL(str);
     let id = url.searchParams.get("id");
-
-    useEffect(()=>{
-        fetch(`http://localhost:3001/dashboard/${id}`, {
-          method: "GET",
-          headers: { 
-            'Authorization': `Bearer ${token}`
-          }
-          })
-          .then(function(res){
-            if(res.ok){
-                return res.json();
-            }
-          })
-          .then(function(res){
-            setData(res);
-          })
-          .catch(function(err){
-              // afficher une erreur dans la console 
-              console.log(err)
-      })
-    },[])
 
     function Modify(e){
         e.preventDefault();

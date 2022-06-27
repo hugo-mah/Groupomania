@@ -18,6 +18,8 @@ exports.createPost = (req, res, next) => {
 exports.getPost = (req, res, next) => {
   Post.find()
   .then((posts) => {
+    posts.sort((a, b) => b.date - a.date);
+    console.log(posts);
     res.status(200).json(posts)
   })
   .catch(error => res.status(404).json({ error }));

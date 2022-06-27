@@ -11,6 +11,7 @@ const Header = styled.header`
     padding: 0px;
     @media (max-width: 768px){
         flex-direction: column;
+        height: 160px;
     }
 `
 
@@ -22,6 +23,8 @@ const Logo = styled.img`
     }
     @media (max-width: 768px){
         padding-left: 0px;
+        position: relative;
+        top: -30px;
     }
 `
 
@@ -46,7 +49,7 @@ const Menu = styled.nav`
     @media(max-width : 768px){
         margin-right: 0px;
         position: relative;
-        top: -30px;
+        top: -80px;
         display: flex;
         justify-content: space-around;
         width: 100%;

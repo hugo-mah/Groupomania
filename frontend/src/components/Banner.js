@@ -9,11 +9,20 @@ const Header = styled.header`
     justify-content: space-between;
     align-items: center;
     padding: 0px;
-    heigth: 100px;
+    @media (max-width: 768px){
+        flex-direction: column;
+    }
 `
+
 const Logo = styled.img`
     height: 200px;
     padding-left: 30px;
+    @media(max-width: 1024px){
+        height: 170px;
+    }
+    @media (max-width: 768px){
+        padding-left: 0px;
+    }
 `
 
 const StyledLink = styled(Link)`
@@ -26,10 +35,22 @@ const StyledLink = styled(Link)`
         cursor: pointer;
         color: ${colors.secondary};
     }
+    @media(max-width: 1024px){
+        padding: 20px;
+        font-size: 20px;
+    }
 `
 
 const Menu = styled.nav`
     margin-right: 30px;
+    @media(max-width : 768px){
+        margin-right: 0px;
+        position: relative;
+        top: -30px;
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
 `
 
 function Banner() {

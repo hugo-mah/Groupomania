@@ -6,7 +6,7 @@ const Card = styled.div `
     display: flex;
     flex-direction: row; 
     margin: 30px auto;
-    padding: 30px;
+    padding: 20px;
     border-radius: 30px;
     width: 900px;
     box-shadow: 0px 5px 30px 0px ${colors.tertiary};
@@ -14,11 +14,24 @@ const Card = styled.div `
     justify-content: space-between;
     align-items: center;
     position: relative;
+    @media(max-width: 1024px){
+        width: 80%;
+    }
+    @media(max-width : 768px){
+        flex-direction: column;
+        width: 80%;
+        padding: 15px;
+    }
 `
 const ZoneImage = styled.div`
     display: flex;
     width: 50%;
     overflow: hidden;
+    border-radius: 15px 0px 0px 15px;
+    @media(max-width : 768px){
+        width: 100%;
+        border-radius: 15px 15px 0px 0px;
+    }
 `
 
 const Image = styled.img`
@@ -30,10 +43,21 @@ const Description = styled.p`
     background-color: ${colors.tertiary};
     color: white;
     padding: 15px;
-    border-radius: 20px;
+    border-radius: 15px;
     text-align: center;
     font-size: 18px;
     width: 40%;
+    @media(max-width: 1024px){
+        font-size: 16px;
+        padding: 10px;
+    }
+    @media(max-width : 768px){
+        width: 100%;
+        border-radius: 0px 0px 15px 15px;
+        padding: 10px 0px;
+        margin-top: 8px;
+        margin-bottom: 0px;
+    }
 `
 
 const Like = styled.div`
@@ -42,6 +66,9 @@ const Like = styled.div`
     bottom: 10px;
     display: flex;
     align-items: center;
+    @media(max-width : 768px){
+        position: initial;
+    }
 `
 
 const LikeButton = styled.button`
@@ -52,6 +79,9 @@ const LikeButton = styled.button`
     &:hover{
         cursor: pointer;
     }
+    @media(max-width: 1024px){
+        font-size: 26px;
+    }
 `
 
 const NumberLike = styled.p`
@@ -59,9 +89,14 @@ const NumberLike = styled.p`
     font-size: 20px;
     margin-left: 10px;
     margin-top: 25px;
+    @media(max-width: 1024px){
+        font-size: 16px;
+    }
 `
 
 const Delete = styled.button`
+    display: flex;
+    align-items: center;
     position: absolute;
     right: 360px;
     bottom: 28px;
@@ -69,15 +104,27 @@ const Delete = styled.button`
     color: ${colors.primary};
     border: 0px solid white;
     border-radius: 20px;
-    padding: 10px;
+    height: 35px;
     font-size: 14px;
+    padding: 0px 10px 0px 10px;
     &:hover{
         cursor: pointer;
         color: ${colors.secondary};
     }
+    @media(max-width: 1024px){
+        font-size: 12px;
+        height: 30px;
+        right: 250px;
+    }
+    @media(max-width : 768px){
+        bottom: 20px;
+        left: 15px;
+    }
 `
 
 const Modify = styled(Link)`
+    display: flex;
+    align-items: center;
     position: absolute;
     right: 270px;
     bottom: 28px;
@@ -85,12 +132,23 @@ const Modify = styled(Link)`
     color: ${colors.primary};
     border: 0px solid white;
     border-radius: 20px;
-    padding: 10px;
     font-size: 14px;
+    max-height: 35px;
+    padding: 12px 10px 8px 10px;
     text-decoration: none;
     &:hover{
         cursor: pointer;
         color: ${colors.secondary};
+    }
+    @media(max-width: 1024px){
+        font-size: 12px;
+        right: 170px;
+        height: 30px;
+        padding: 0px 10px;
+    }
+    @media(max-width : 768px){
+        bottom: 20px;
+        right: 15px;
     }
 `
 

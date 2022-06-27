@@ -9,6 +9,9 @@ const Title = styled.h2`
     padding: 30px;
     font-size: 27px;
     text-align: center;
+    @media(max-width: 768px){
+        font-size: 18px;
+    }
 `
 
 const Formulaire = styled.form`
@@ -17,12 +20,22 @@ const Formulaire = styled.form`
     flex-direction: column; 
     margin: auto;
     margin-top: 20px;
+    @media(max-width: 1024px){
+        width: 80%;
+    }
+    @media(max-width: 768px){
+        margin-top: 0px;
+        width: 90%;
+    }
 `
 
 const StyledLabel = styled.label`
     font-size: 20px;
     margin: 10px;
     color: ${colors.primary};
+    @media(max-width: 768px){
+        font-size: 18px;
+    }
 `
 
 const StyledText = styled.input`
@@ -31,7 +44,10 @@ const StyledText = styled.input`
     font-size: 18px;
     margin: 10px;
     border: 2px solid ${colors.tertiary};
-    border-radius: 20px
+    border-radius: 20px;
+    @media(max-width: 768px){
+        width: auto;
+    }
 `
 
 const StyledButton = styled.input`
@@ -50,6 +66,10 @@ const StyledButton = styled.input`
         cursor: pointer;
         box-shadow: 2px 5px 14px 0px ${colors.tertiary};
         color: ${colors.secondary};
+    }
+    @media(max-width: 768px){
+        font-size: 16px;
+        width: 40%;
     }
 `
 

@@ -14,6 +14,9 @@ const Card = styled.form`
     box-shadow: 0px 5px 30px 0px ${colors.tertiary};
     background-color: ${colors.secondary};
     align-items: center;
+    @media(max-width: 1024px){
+        width: 80%;
+    }
 `
 
 const Label = styled.label`

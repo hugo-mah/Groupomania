@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import colors from '../utils/styles/colors';
 import logo from '../assets/logo_blanc.png';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Header = styled.header`
     background-color: ${colors.tertiary};
@@ -56,16 +57,52 @@ const Menu = styled.nav`
     }
 `
 
+const StyledButton = styled.span`
+    text-decoration: none;
+    padding: 30px;
+    font-size: 22px;
+    color: ${colors.primary};
+    transition: 200ms;
+    &:hover{
+        cursor: pointer;
+        color: ${colors.secondary};
+    }
+    @media(max-width: 1024px){
+        padding: 20px;
+        font-size: 20px;
+    }
+`
+
 function Banner() {
+    const navigate = useNavigate()
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('userId');
+    let isConnected = false;
+    if(token && userId){
+        isConnected = true;
+    }
+
+    function LogoutClick() {
+        localStorage.clear();
+        navigate('/');
+    }
+
     return(
         <Header>
             <Link to={('/dashboard')}>
                 <Logo src={`${logo}`} alt="logo"></Logo>
             </Link> 
-            <Menu>
-                <StyledLink to='/login'>Se connecter</StyledLink>
-                <StyledLink to='/signup'>S'inscrire</StyledLink>
-            </Menu>
+            {
+                isConnected === false
+                ?<Menu>
+                    <StyledLink to='/login'>Se connecter</StyledLink>
+                    <StyledLink to='/signup'>S'inscrire</StyledLink>
+                </Menu>
+                :<Menu>
+                    <StyledLink to='/post'>Publier</StyledLink>
+                    <StyledButton onClick={LogoutClick}>Se déconnecter</StyledButton>
+                </Menu>
+            }
         </Header>
     )
 }

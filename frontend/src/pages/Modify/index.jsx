@@ -1,10 +1,10 @@
-import BannerConnected from "../../components/BannerConnected"
+import Banner from "../../components/Banner"
 import ModifyPost from "../../components/ModifyPost"
 
 function Modify(){
     return(
         <div>
-            <BannerConnected />
+            <Banner />
             <ModifyPost />
         </div>
     )

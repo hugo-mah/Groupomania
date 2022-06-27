@@ -1,10 +1,10 @@
-import BannerConnected from "../../components/BannerConnected"
+import Banner from "../../components/Banner"
 import NewPost from "../../components/NewPost";
 
 function Post(){
     return(
         <div>
-            <BannerConnected />
+            <Banner />
             <NewPost />
         </div>
     )

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BannerConnected from "../../components/BannerConnected";
+import Banner from "../../components/Banner";
 import Post from "../../components/Post";
 
 
@@ -28,7 +28,7 @@ function Dashboard() {
   }, [token])
   return (
     <div>
-      <BannerConnected />
+      <Banner />
       {response && (
         <section>
           {response.map((post)=>(

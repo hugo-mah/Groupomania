@@ -1,11 +1,11 @@
 import Banner from "../../components/Banner";
-import Inscription from "../../components/Inscription";
+import Connexion from "../../components/Connexion";
 
 function Signup() {
   return (
     <div>
       <Banner />
-      <Inscription/>
+      <Connexion/>
     </div>
   );
 }

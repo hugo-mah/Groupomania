@@ -78,6 +78,15 @@ function Connexion() {
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
     const navigate = useNavigate();
+    let str = window.location.href;
+    let url = new URL(str);
+    let hasAccount = undefined;
+    if(url.pathname === '/login'){
+        hasAccount = true
+    }
+    else{
+        hasAccount = false
+    }
 
     function ConnexionClick(e) {
         e.preventDefault();
@@ -109,16 +118,72 @@ function Connexion() {
         })
     }
 
+    function SignupClick(e) {
+        if(email.match(/^[a-zA-Z\0-9\é\ê\è\-]+[@]+[a-zA-Z\0-9\é\ê\è\-]+[.]+[a-zA-Z]+$/)){
+            e.preventDefault();
+            fetch("http://localhost:3001/signup", {
+                method: "POST",
+                headers: { 
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({email, password}),
+                })
+                .then(function(res){
+                    if(res.ok){
+                        console.log("Ok");
+                        return res.json();
+                    }
+                    else{
+                        return res.status;
+                    }
+                })
+                .then(function(res){
+                    if(res === 400){
+                        alert('Utilisateur existant');
+                    }
+                    else{
+                        localStorage.setItem('userId', res.userId);
+                        localStorage.setItem('token', res.token);
+                        navigate('/dashboard');
+                    }
+                })
+                .catch(function(err){
+                    // afficher une erreur dans la console 
+                    console.log(err)
+            })
+        }
+        else{
+            e.preventDefault();
+            alert('Rentrez une adresse mail valide')
+        }
+    }
+
     return(
         <main>
-            <Title>Veuillez vous identifier</Title>
-            <Formulaire method='post'>
-                <StyledLabel for='mail'>E-mail</StyledLabel>
-                <StyledText type='text' id='mail' name='mail' value={email} required onChange={(e) => setEmail(e.target.value)}></StyledText>
-                <StyledLabel for='password'>Mot de passe</StyledLabel>
-                <StyledText type='password' id='password' name='password' value={password} required onChange={(e) => setPassword(e.target.value)}></StyledText>
-                <StyledButton type='submit' value='Connexion' onClick={ConnexionClick}></StyledButton>
-            </Formulaire>
+            {
+                hasAccount === true
+                ?<div>
+                    <Title>Veuillez vous identifier</Title>
+                    <Formulaire method='post'>
+                        <StyledLabel for='mail'>E-mail</StyledLabel>
+                        <StyledText type='text' id='mail' name='mail' value={email} required onChange={(e) => setEmail(e.target.value)}></StyledText>
+                        <StyledLabel for='password'>Mot de passe</StyledLabel>
+                        <StyledText type='password' id='password' name='password' value={password} required onChange={(e) => setPassword(e.target.value)}></StyledText>
+                        <StyledButton type='submit' value='Connexion' onClick={ConnexionClick}></StyledButton>
+                    </Formulaire>
+                </div>
+                :<div>
+                    <Title>Veuillez vous inscrire</Title>
+                    <Formulaire method='post'>
+                        <StyledLabel for='mail'>E-mail</StyledLabel>
+                        <StyledText type='text' className='mail' name='mail' required onChange={(e) => setEmail(e.target.value)}></StyledText>
+                        <StyledLabel for='password'>Mot de passe</StyledLabel>
+                        <StyledText type='password' name='password' required onChange={(e) => setPassword(e.target.value)}></StyledText>
+                        <StyledButton type='submit' value='Connexion' onClick={SignupClick}></StyledButton>
+                    </Formulaire>
+                </div>
+            }
         </main>
     )
 }

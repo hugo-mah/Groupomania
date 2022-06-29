@@ -19,16 +19,9 @@ exports.getPost = (req, res, next) => {
   Post.find()
   .then((posts) => {
     posts.sort((a, b) => b.date - a.date);
-    console.log(posts);
     res.status(200).json(posts)
   })
   .catch(error => res.status(404).json({ error }));
-}
-
-exports.getOnePost = (req, res, next) => {
-    Post.findOne({_id: req.params.id})
-    .then(post => res.status(200).json(post))
-    .catch(error => res.status(404).json({ error }));
 }
 
 exports.likePost = (req, res, next) => {

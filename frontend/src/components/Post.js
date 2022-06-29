@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import colors from "../utils/styles/colors";
@@ -153,6 +154,7 @@ const Modify = styled(Link)`
 `
 
 
+
 function Post({data}) {
     const navigate = useNavigate();
     let token = localStorage.getItem('token');
@@ -160,15 +162,18 @@ function Post({data}) {
     let usersLiked = data.usersLiked;
     const presentLike = (element) => element === userId;
     let findLike = usersLiked.some(presentLike);
-    let like = undefined;
+    let isLiked = null
+    let like = undefined
     if(findLike === true){
-        like = 0;
+        isLiked = true
     }
     else if(findLike === false){
-        like = 1;
+        isLiked = false
     }
 
+
     function CancelLike(){
+        like = 0
         fetch("http://localhost:3001/like", {
             method: "POST",
               headers: { 
@@ -180,12 +185,11 @@ function Post({data}) {
             })
             .then(function(res){
                 if(res.ok){
-                    console.log("Ok");
                     return res.json();
                 }
             })
             .then(function(res){
-                navigate('/');
+                navigate('/')
             })
             .catch(function(err){
                 console.log(err)
@@ -193,6 +197,7 @@ function Post({data}) {
     }
 
     function AddLike(){
+        like = 1
         fetch("http://localhost:3001/like", {
             method: "POST",
               headers: { 
@@ -204,12 +209,11 @@ function Post({data}) {
             })
             .then(function(res){
                 if(res.ok){
-                    console.log("Ok");
                     return res.json();
                 }
             })
             .then(function(res){
-                navigate('/');
+                navigate('/')
             })
             .catch(function(err){
                 console.log(err)
@@ -249,7 +253,7 @@ function Post({data}) {
             <Description>{data.description}</Description>
             <Like>
                 {
-                    like === 1
+                    isLiked === false
                     ? <LikeButton onClick={AddLike}><i class="fa-regular fa-thumbs-up"></i></LikeButton>
                     : <LikeButton onClick={CancelLike}><i class="fa-solid fa-thumbs-up"></i></LikeButton>
                 }

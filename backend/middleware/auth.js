@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
         }
     } catch {
         res.status(403).json({
-        error: new Error('Requête invalide!')
+        error: "Non authentifié"
         });
     }
 };

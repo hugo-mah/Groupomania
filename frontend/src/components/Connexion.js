@@ -80,39 +80,33 @@ function Connexion() {
     const navigate = useNavigate();
 
     function ConnexionClick(e) {
-        if(email.match(/^[a-zA-Z\0-9\é\ê\è\-]+[@]+[a-zA-Z\0-9\é\ê\è\-]+[.]+[a-zA-Z]+$/)){
-            e.preventDefault();
-            fetch("http://localhost:3001/login", {
-                method: "POST",
-                headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify({email, password}),
-                })
-                .then(function(res){
-                    if(res.ok){
-                    console.log("Ok");
-                    return res.json();
-                    }
-                    else{
-                        alert('E-mail ou mot de passe invalide');
-                    }
-                })
-                .then(function(reponse){
-                    localStorage.setItem('token', reponse.token);
-                    localStorage.setItem('userId', reponse.userId);
-                    navigate('/dashboard');
-                })
-                .catch(function(err){
-                    // afficher une erreur dans la console 
-                    console.log(err)
+        e.preventDefault();
+        fetch("http://localhost:3001/login", {
+            method: "POST",
+            headers: { 
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({email, password}),
             })
-        } 
-        else{
-            e.preventDefault();
-            alert('Rentrez une adresse mail valide');
-        }
+            .then(function(res){
+                if(res.ok){
+                console.log("Ok");
+                return res.json();
+                }
+                else{
+                    alert('E-mail ou mot de passe invalide');
+                }
+            })
+            .then(function(reponse){
+                localStorage.setItem('token', reponse.token);
+                localStorage.setItem('userId', reponse.userId);
+                navigate('/dashboard');
+            })
+            .catch(function(err){
+                // afficher une erreur dans la console 
+                console.log(err)
+        })
     }
 
     return(

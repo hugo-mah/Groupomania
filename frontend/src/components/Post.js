@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import colors from "../utils/styles/colors";
+import { useState } from "react";
 
 const Card = styled.div `
     display: flex;
@@ -155,20 +156,15 @@ const Modify = styled(Link)`
 
 
 function Post({data}) {
+    let [likes , setLikes] = useState(data.likes)
     const navigate = useNavigate();
     let token = localStorage.getItem('token');
     let userId = localStorage.getItem('userId');
     let usersLiked = data.usersLiked;
     const presentLike = (element) => element === userId;
     let findLike = usersLiked.some(presentLike);
-    let isLiked = null
+    let [isLiked, setIsLiked] = useState(findLike)
     let like = undefined
-    if(findLike === true){
-        isLiked = true
-    }
-    else if(findLike === false){
-        isLiked = false
-    }
 
 
     function CancelLike(){
@@ -188,7 +184,8 @@ function Post({data}) {
                 }
             })
             .then(function(res){
-                navigate('/')
+                setLikes(likes -= 1)
+                setIsLiked(false)
             })
             .catch(function(err){
                 console.log(err)
@@ -212,7 +209,8 @@ function Post({data}) {
                 }
             })
             .then(function(res){
-                navigate('/')
+                setLikes(likes += 1)
+                setIsLiked(true)
             })
             .catch(function(err){
                 console.log(err)
@@ -256,10 +254,10 @@ function Post({data}) {
                     ? <LikeButton onClick={AddLike}><i class="fa-regular fa-thumbs-up"></i></LikeButton>
                     : <LikeButton onClick={CancelLike}><i class="fa-solid fa-thumbs-up"></i></LikeButton>
                 }
-                <NumberLike>{data.likes}</NumberLike>
+                <NumberLike>{likes}</NumberLike>
             </Like>
             {
-                (data.userId === userId || userId === "62b82230bb173280c8090464") &&
+                (data.userId === userId || userId === process.env.REACT_APP_ADMIN_USERID) &&
                 <div>
                     <Delete onClick={DeletePost}>Supprimer</Delete>
                     <Modify to={(`/modify?id=${data._id}`)} >Modifier</Modify>

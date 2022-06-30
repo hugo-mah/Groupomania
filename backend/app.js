@@ -6,7 +6,7 @@ const env = require('dotenv').config();
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 
-mongoose.connect(`${process.env.REACT_APP_DATABASE}`,
+mongoose.connect(process.env.REACT_APP_DATABASE,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))

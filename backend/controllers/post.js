@@ -2,17 +2,32 @@ const Post = require('../models/Post');
 const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
+  if(req.file === undefined){
     let post = new Post ({
-        userId: req.body.userId,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        description: req.body.description,
-        likes: 0,
-        usersLiked: [],
-        date: Date.now()
+      userId: req.body.userId,
+      imageUrl: null,
+      description: req.body.description,
+      likes: 0,
+      usersLiked: [],
+      date: Date.now()
     })
     post.save()
     .then(() => res.status(201).json({ message: 'Post enregistrée !'}))
     .catch(error => res.status(400).json({ error }));
+  }
+  else{
+    let post = new Post ({
+      userId: req.body.userId,
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+      description: req.body.description,
+      likes: 0,
+      usersLiked: [],
+      date: Date.now()
+    })
+    post.save()
+    .then(() => res.status(201).json({ message: 'Post enregistrée !'}))
+    .catch(error => res.status(400).json({ error }));
+  }
 }
 
 exports.getPost = (req, res, next) => {
@@ -59,21 +74,28 @@ exports.likePost = (req, res, next) => {
 }
 
 exports.deletePost = (req, res, next) => {
-    Post.findOne({ _id: req.body.data._id })
-    .then(post => {
-      if((post.userId == req.auth.userId) || (req.auth.userId === process.env.REACT_APP_ADMIN_USERID)){
+  Post.findOne({ _id: req.body.data._id })
+  .then(post => {
+    if((post.userId == req.auth.userId) || (req.auth.userId === process.env.REACT_APP_ADMIN_USERID)){
+      if(post.imageUrl !== null){
         const filename = post.imageUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {
           Post.deleteOne({ _id: req.body.data._id })
           .then(() => res.status(201).json({ message: 'Post supprimé !'}))
           .catch(error => res.status(400).json({ error }));
-      });
+        })
       }
       else{
-        res.status(401).json({message: 'Utilisateur non authentifié'});
+        Post.deleteOne({ _id: req.body.data._id })
+        .then(() => res.status(201).json({ message: 'Post supprimé !'}))
+        .catch(error => res.status(400).json({ error }));
       }
-    })
-    .catch(error => res.status(500).json({ error }));
+    } 
+    else{
+      res.status(401).json({message: 'Utilisateur non authentifié'});
+    }
+  })
+  .catch(error => res.status(500).json({ error }));
 }
 
 
@@ -113,3 +135,11 @@ Post.findOne({ _id: req.params.id })
 })
 .catch(error => res.status(500).json({ error }))
 };
+
+exports.getOnePost = (req, res, next) => {
+  Post.findOne({ _id: req.params.id })
+  .then((post) => {
+    res.status(200).json(post)
+  })
+  .catch(error => res.status(404).json({ error }));
+}

@@ -15,6 +15,7 @@ const Card = styled.div `
     justify-content: space-between;
     align-items: center;
     position: relative;
+    min-height: 250px;
     @media(max-width: 1024px){
         width: 80%;
     }
@@ -29,9 +30,11 @@ const ZoneImage = styled.div`
     width: 50%;
     overflow: hidden;
     border-radius: 15px 0px 0px 15px;
+    margin-right: 10px;
     @media(max-width : 768px){
         width: 100%;
         border-radius: 15px 15px 0px 0px;
+        margin-right: 0px;
     }
 `
 
@@ -47,7 +50,7 @@ const Description = styled.p`
     border-radius: 15px;
     text-align: center;
     font-size: 18px;
-    width: 40%;
+    width: 50%;
     @media(max-width: 1024px){
         font-size: 16px;
         padding: 10px;
@@ -165,6 +168,7 @@ function Post({data}) {
     let findLike = usersLiked.some(presentLike);
     let [isLiked, setIsLiked] = useState(findLike)
     let like = undefined
+    let [description, setDescription] = useState(data.description)
 
 
     function CancelLike(){
@@ -244,10 +248,16 @@ function Post({data}) {
 
     return(
         <Card>
-            <ZoneImage>
-                <Image src={data.imageUrl} alt='#' />
-            </ZoneImage>
-            <Description>{data.description}</Description>
+            {
+                (data.imageUrl != null) &&
+                <ZoneImage>
+                    <Image src={data.imageUrl} alt='' />
+                </ZoneImage>
+            }
+            {
+                (description !== "") &&
+                <Description>{description}</Description>
+            }
             <Like>
                 {
                     isLiked === false
@@ -260,7 +270,7 @@ function Post({data}) {
                 (data.userId === userId || userId === process.env.REACT_APP_ADMIN_USERID) &&
                 <div>
                     <Delete onClick={DeletePost}>Supprimer</Delete>
-                    <Modify to={(`/modify?id=${data._id}`)} >Modifier</Modify>
+                    <Modify to={(`/modify?id=${data._id}`)}>Modifier</Modify>
                 </div>
             }
         </Card>

@@ -67,9 +67,15 @@ function NewPost(){
         let formData = new FormData();
         let token = localStorage.getItem('token');
         let userId = localStorage.getItem('userId');
-        formData.append('image', files[0]);
-        formData.append('description', description);
-        formData.append('userId', userId);
+        if(files){
+            formData.append('image', files[0]);
+            formData.append('description', description);
+            formData.append('userId', userId);
+        }
+        else{
+            formData.append('description', description);
+            formData.append('userId', userId);
+        }
         fetch("http://localhost:3001/post", {
             method: "POST",
               headers: { 
@@ -96,9 +102,9 @@ function NewPost(){
     return(
         <Card id='card'>
             <Label for='image'>Image</Label>
-            <InputImage name='image' type='file' accept="image/png, image/jpeg, image/jpg" onChange={(e) => setFiles(e.target.files)} required/>
+            <InputImage name='image' type='file' accept="image/png, image/jpeg, image/jpg" onChange={(e) => setFiles(e.target.files)}/>
             <Label for='description'>Description</Label>
-            <Description name='description' onChange={(e) => setDescription(e.target.value)} required/>
+            <Description name='description' onChange={(e) => setDescription(e.target.value)}/>
             <StyledButton type='submit' value='Poster' onClick={SendPost}/>
         </Card>
     )

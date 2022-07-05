@@ -58,8 +58,8 @@ const StyledButton = styled.input`
     }
 `
 
-function ModifyPost(){
-    let [description, setDescription] = useState('');
+function ModifyPost({data}){
+    let [description, setDescription] = useState(data.description);
     let [files, setFiles] = useState(null);
     const navigate = useNavigate();
     let str = window.location.href;
@@ -108,7 +108,7 @@ function ModifyPost(){
             <Label for='image'>Image</Label>
             <InputImage name='image' type='file' accept="image/png, image/jpeg, image/jpg" onChange={(e) => setFiles(e.target.files)} />
             <Label for='description'>Description</Label>
-            <Description name='description' onChange={(e) => setDescription(e.target.value)} />
+            <Description name='description' onChange={(e) => setDescription(e.target.value)}>{description}</Description>
             <StyledButton type='submit' value='Modifier' onClick={Modify}/>
         </Card>
     )

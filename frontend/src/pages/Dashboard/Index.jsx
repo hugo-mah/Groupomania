@@ -3,7 +3,7 @@ import Banner from "../../components/Banner";
 import Post from "../../components/Post";
 
 
-function Dashboard() {
+function Dashboard({description}) {
   let token = localStorage.getItem('token');
   let [response, setResponse] = useState(null);
   useEffect(() => {

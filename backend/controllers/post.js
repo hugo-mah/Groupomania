@@ -106,8 +106,19 @@ Post.findOne({ _id: req.params.id })
         if (req.file) {
             Post.findOne({ _id: req.params.id })
             .then(post => {
-            const filename = post.imageUrl.split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {
+            if(post.imageUrl == null){
+              const postObject = {
+              userId: post.userId,
+              description: req.body.description,
+              imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+              }
+              Post.updateOne({ _id: req.params.id }, { ...postObject})
+              .then(() => res.status(201).json({ message: 'Post modifié!' }))
+              .catch(error => res.status(400).json({ error }));
+            }
+            else{
+              const filename = post.imageUrl.split('/images/')[1];
+              fs.unlink(`images/${filename}`, () => {
                 const postObject = {
                 userId: post.userId,
                 description: req.body.description,
@@ -116,7 +127,8 @@ Post.findOne({ _id: req.params.id })
                 Post.updateOne({ _id: req.params.id }, { ...postObject})
                 .then(() => res.status(201).json({ message: 'Post modifié!' }))
                 .catch(error => res.status(400).json({ error }));
-            })
+              })
+            }
             })
             .catch(error => res.status(500).json({ error }));
         } else {

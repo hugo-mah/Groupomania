@@ -108,7 +108,7 @@ function ModifyPost({data}){
             <Label for='image'>Image</Label>
             <InputImage name='image' type='file' accept="image/png, image/jpeg, image/jpg" onChange={(e) => setFiles(e.target.files)} />
             <Label for='description'>Description</Label>
-            <Description name='description' onChange={(e) => setDescription(e.target.value)}>{description}</Description>
+            <Description name='description' defaultValue={description} onChange={(e) => setDescription(e.target.value)}></Description>
             <StyledButton type='submit' value='Modifier' onClick={Modify}/>
         </Card>
     )
